@@ -1,1 +1,1 @@
-"## summerize Text" 
+## summerize Text
