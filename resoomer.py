@@ -6,21 +6,28 @@ textToSumrize = [
     ]
 
 sumrizedText = []
-driver = webdriver.Chrome()
-idx = 0
-for text in textToSumrize:
+options = webdriver.ChromeOptions()
+options.add_argument("start-maximized") # open Browser in maximized mode
+options.add_argument("disable-infobars") # disabling infobars
+options.add_argument("--disable-extensions") # disabling extensions
+options.add_argument("--disable-gpu") # applicable to windows os only
+options.add_argument("--disable-dev-shm-usage") # overcome limited resource problems
+options.add_argument("--no-sandbox") # Bypass OS security model
+driver = webdriver.Chrome('C:\webdrivers\chromedriver.exe',chrome_options=options)
+
+for idx in range(len(textToSumrize)):
 
     print("Phase : ", idx)
     driver.get('https://resoomer.com/en/')    
 
     textArea = driver.find_element_by_css_selector('#contentText')
-    textArea.send_keys(text)
+    textArea.clear()
+    textArea.send_keys(textToSumrize[idx])
 
     resoomerBtn = driver.find_element_by_css_selector("#btnSendText_V2")
     resoomerBtn.submit()
 
     outputText = driver.find_element_by_css_selector("#conteneurTextAuto")    
-    sumrizedText.append(outputText.text.split("\n\n")[idx])
-    idx += 1
+    sumrizedText.append(outputText.text)    
 
 print("\n",sumrizedText)
